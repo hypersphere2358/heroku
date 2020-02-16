@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 import numpy as np
 import os
-import cv2
+# import cv2
 import copy
 from PIL import Image
 from myportfolio import settings
@@ -80,6 +80,10 @@ def localize_image(image_data, empty_value=0, size=28, max_value=255.0):
     data_n = localized_image_data.shape[0]
     for i in range(data_n):
         img = localized_image_data[i]
+
+        # 참고. pillow 데이터에서 흑백 이미지 데이터 : 0=검정, 255=흰색
+        # 하지만 view.py에서 255로 나눈 후 함수로 들어오기 때문에 0~1이 된다.
+
         # 박스의 바운더리 좌표 계산
         b_result = get_boundary(img)
         new_height = b_result[2] - b_result[0] + 1
@@ -90,9 +94,21 @@ def localize_image(image_data, empty_value=0, size=28, max_value=255.0):
         #     max_length = new_width
         # 검색된 영역대로 잘라낸 데이터를 저장.
         img = img[b_result[0]:(b_result[2] + 1), b_result[1]:(b_result[3] + 1)]
+
+        # pillow로 resize처리
         img = max_value - img
-        img = cv2.resize(img, dsize=(size, size), interpolation=cv2.INTER_AREA)
-        localized_image_data[i] = max_value - img
+        img *= 255
+        pillow_image = Image.fromarray(img)
+        pillow_image = pillow_image.resize((size, size))
+        img = np.array(pillow_image)
+        img /= 255
+        img = max_value - img
+
+        # opencv로 resize 처리
+        # heroku에서 import cv2를 처리하지 못하므로 사용하지 않음.
+        # img = max_value - img
+        # img = cv2.resize(img, dsize=(size, size), interpolation=cv2.INTER_AREA)
+        localized_image_data[i] = img
         # if i % 2000 == 0:
         #     print(i)
     return localized_image_data
