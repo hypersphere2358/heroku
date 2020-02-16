@@ -1,0 +1,253 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Modern Business - Start Bootstrap Template</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
+
+	<style type="text/css">
+		#canvas_content {
+		    width:160px;
+		    height:160px;
+		    margin: 0 auto;
+		    margin-top:50px;
+		    border:1px solid black;
+		}
+
+		#title {
+		    width:800px;
+		    margin: 0 auto;
+		    text-align:center;
+		    margin-top:30px;
+		}
+	</style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="">코딩놀이터</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  
+
+  	<!-- Page Content -->
+ 	<div class="container">
+ 		<br>
+
+    	<h2>필기숫자 인식</h2>
+	    
+	    <div id="canvas_content">
+	        <canvas id="myCanvas"></canvas>
+			<canvas hidden id="canvas_for_calculation"></canvas>
+		</div>
+
+
+		<div align="center">
+			<!-- <form action="/number_recognition/" method="post">
+				{% csrf_token %}
+			    <label for="your_name">Your name: </label>
+			    <input id="your_name" type="text" name="your_name" value="">
+			    <input type="submit" value="OK">
+			</form> -->
+
+			<!-- <form action="/number_recognition/" method="post">
+				
+				{% csrf_token %}
+				<input type="submit" value="모델 로드" class="btn btn-outline-info">
+			</form> -->
+
+			<button type="button" id="btn_calculation" class="btn btn-outline-info">계산</button>
+			<a href="">
+				<button type="button" id="btn_result" class="btn btn-outline-info">결과보기</button>
+			</a>
+	        <button type="button" id="btn_clear" class="btn btn-outline-info">지우기</button>
+	   	</div>
+	   	<br>
+	    <div align="center">
+	    	<table class="table table-striped">
+	    		<thead>
+	    			<tr>
+	    				<td><b>모델명</b></td>
+	    				<td><b>설명</b></td>
+	    				<td><b>결과</b></td>
+	    			</tr>
+	    		</thead>
+	    		<tbody>
+	    			{% for model in NR_models %}
+	    			<tr>
+	    				<td>{{ model.model_name }}</td>
+	    				<td>{{ model.description }}</td>
+	    				<td><b><font size="4" color="red">{{ model.prediction_result }}</font></b></td>
+	    			</tr>
+	    			{% endfor %}
+	    		</tbody>
+	    	</table>
+	    </div>
+    	<hr>
+  	</div>
+  	<!-- /.container -->
+
+  	<!-- Footer -->
+  	<footer class="py-5 bg-dark">
+    	<div class="container">
+      		<p class="m-0 text-center text-white">코딩놀이터 Coding Playground By 빽</p>
+    	</div>
+	<!-- /.container -->
+  	</footer>
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    	/******************************************************************
+		기본 캔버스 생성 관련 스크립트-시작
+    	******************************************************************/
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var painting = document.getElementById("canvas_content");
+        var paintStyle = getComputedStyle(painting);
+        canvas.width = parseInt(paintStyle.getPropertyValue("width"));
+        canvas.height = parseInt(paintStyle.getPropertyValue("height"));
+
+        var mouse = {x: 0, y: 0};
+
+        canvas.addEventListener('mousemove', function(e) {
+            mouse.x = e.pageX - this.offsetLeft;
+            mouse.y = e.pageY - this.offsetTop;
+        }, false);
+
+        ctx.lineWidth = 7;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#000000';
+
+        canvas.addEventListener('mousedown', function(e) {
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+            canvas.addEventListener('mousemove', onPaint, false);
+        }, false);
+
+        canvas.addEventListener('mouseup', function() {
+            canvas.removeEventListener('mousemove', onPaint, false);
+        }, false);
+
+        var onPaint = function() {
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+        }
+
+        /******************************************************************
+		기본 캔버스 생성 관련 스크립트-끝
+    	******************************************************************/
+	
+
+
+
+
+		// 캔버스 내용 지우기버튼
+        var btn_clear = document.getElementById("btn_clear");
+
+		// 지우기 기능 추가
+        btn_clear.addEventListener('click', function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+        });
+		
+		
+		// 새로운 캔버스 태그 불러오기
+		var new_canvas = document.getElementById("canvas_for_calculation");
+		var new_image_ctx = new_canvas.getContext("2d");
+		// 새로운 이미지 canvas 크기 지정
+		new_canvas.width = 28;
+		new_canvas.height = 28;
+		
+		// 계산 버튼.
+		var btn_calculation = document.getElementById("btn_calculation");
+		// 계산 버튼 클릭한 경우.
+		// 그려진 데이터를 28x28 이미지 데이터로 변환한 후 장고 view.py로 전달한다.
+		btn_calculation.addEventListener('click', function() {
+            // 그려진 이미지 데이터 저장.
+			var image_data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			
+			// 그려진 이미지를 저장할 새로운 변수
+			var new_image = new Image();
+			
+			
+			// 객체 생성 시, 새로운 사이즈로 그림 그리기.
+			new_image.onload = function() {
+				// 기존 canvas 지우기
+				new_image_ctx.clearRect(0, 0, new_canvas.width, new_canvas.height);
+				new_image_ctx.beginPath();
+			
+				//
+				new_image_ctx.drawImage(new_image, 0, 0, new_canvas.width, new_canvas.height);
+				var new_image_data = new_image_ctx.getImageData(0, 0, new_canvas.width, new_canvas.height);
+				var raster = new_image_data.data;
+				var grayscale_data = [];
+				
+				
+				for (var i=0;i<raster.length;i++) {
+					if(i % 4 == 3) {
+						grayscale_data.push(raster[i]);
+					}
+				}
+				
+				//alert(grayscale_data);
+				
+				$.ajax({
+					url: "/number_recognition/",
+					type: "POST",
+					traditional: true,
+					//dataType: "json",
+					data: {
+						pixel_data: grayscale_data,
+						dump: 0,
+						csrfmiddlewaretoken: "{{ csrf_token }}"
+					},
+					success : function(json) {
+						// 보통 여기서 페이지를 바로 업데이트 하는 javascript를 작성한다.
+
+						alert("계산완료. [결과보기] 버튼을 눌러 결과를 확인하세요.");
+					},
+					error : function(xhr,errmsg,err) {
+						alert("Could not send URL to Django. Error: " + errmsg + " AND " + xhr.status + ": " + xhr.responseText);
+					}
+				});
+
+			}
+			// 이미지 URL 저장
+			new_image.src = canvas.toDataURL();
+        });
+    </script>
+
+</body>
+
+</html>
