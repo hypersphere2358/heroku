@@ -36,7 +36,7 @@ DEBUG = False
 
 # DEBUG를 False로 하는 경우에는 ALLOWED_HOSTS를 서버로 사용할 컴퓨터의 IP로 설정한다
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['192.168.123.100', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
