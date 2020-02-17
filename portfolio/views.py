@@ -107,7 +107,10 @@ def object_detection_main_page(request):
             print(saved_image.image.url)
 
             # darknet을 cmd 창에서 직접 실행한다.
-            cmd = "darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
+            # 개발환경에서는 windows cmd.
+            # heroku 배포환경에서는 UNIX.
+            # cmd = "darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
+            cmd = "./darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
             cmd += saved_image.image.url[1:]
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.

@@ -30,8 +30,8 @@ with open(os.path.join(BASE_DIR, "myportfolio", "secret_key.txt")) as f:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 배포시에는 False로 설정
-DEBUG = False
-# DEBUG = True
+# DEBUG = False
+DEBUG = True
 
 
 # DEBUG를 False로 하는 경우에는 ALLOWED_HOSTS를 서버로 사용할 컴퓨터의 IP로 설정한다
