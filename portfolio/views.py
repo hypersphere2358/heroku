@@ -35,7 +35,7 @@ def number_recognition_main_page(request):
         for model in tf_load_model_info:
             TENSORFLOW_MODELS[model.model_name] = dict()
             TENSORFLOW_MODELS[model.model_name]["model_name"] = model.model_name
-            TENSORFLOW_MODELS[model.model_name]["model"] = load_tensorflow_keras_model(model.model_name)
+            TENSORFLOW_MODELS[model.model_name]["model"] = load_tensorflow_keras_model(model.file_path)
             TENSORFLOW_MODELS[model.model_name]["description"] = model.description
             TENSORFLOW_MODELS[model.model_name]["prediction_result"] = ""
 

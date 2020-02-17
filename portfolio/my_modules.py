@@ -11,10 +11,10 @@ from myportfolio import settings
 TENSORFLOW_DATA_DIR = "tensorflow_data/"
 TEMPORARY_IMAGE_DIR = "temp_img_data/"
 
-def load_tensorflow_keras_model(model_name):
+def load_tensorflow_keras_model(model_file_path):
 
     try:
-        model_path = TENSORFLOW_DATA_DIR + model_name + ".h5"
+        model_path = TENSORFLOW_DATA_DIR + model_file_path
         model = keras.models.load_model(model_path)
     except:
         model = None
