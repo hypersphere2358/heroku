@@ -54,21 +54,21 @@ def number_recognition_main_page(request):
             # 모델명 전체 저장.
             model_names = list(TENSORFLOW_MODELS.keys())
             for i in range(len(model_names)):
-                cur_model_name = model_names[i]
-                cur_model = TENSORFLOW_MODELS[cur_model_name]["model"]
+                cur_model_type = model_names[i]
+                cur_model = TENSORFLOW_MODELS[cur_model_type]["model"]
 
                 # 어떤 모델이냐에 따라 input의 형태를 다르게 해야함.
-                if cur_model_name in ["NR_basic"]:
+                if cur_model_type in ["NR_basic"]:
                     prediction_data = pixel_data.reshape(-1, 28 * 28)
-                elif cur_model_name in ["NR_basic_CNN"]:
+                elif cur_model_type in ["NR_basic_CNN"]:
                     prediction_data = pixel_data.reshape(-1, 28, 28, 1)
-                elif cur_model_name in ["NR_basic_CNN_adjusted"]:
+                elif cur_model_type in ["NR_basic_CNN_adjusted"]:
                     prediction_data = pixel_data.reshape(-1, 28, 28)
                     prediction_data = localize_image(prediction_data, max_value=1.0)
                     prediction_data = prediction_data.reshape(-1, 28, 28, 1)
 
                 result = cur_model.predict(prediction_data)
-                TENSORFLOW_MODELS[cur_model_name]["prediction_result"] = str(np.argmax(result))
+                TENSORFLOW_MODELS[cur_model_type]["prediction_result"] = str(np.argmax(result))
 
                 # print("모델 " + str(i) + ". 분석결과 : " + str(np.argmax(result)))
 
