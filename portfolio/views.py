@@ -33,11 +33,12 @@ def number_recognition_main_page(request):
 
         # 저장된 모델을 불러온다.
         for model in tf_load_model_info:
-            TENSORFLOW_MODELS[model.model_name] = dict()
-            TENSORFLOW_MODELS[model.model_name]["model_name"] = model.model_name
-            TENSORFLOW_MODELS[model.model_name]["model"] = load_tensorflow_keras_model(model.file_path)
-            TENSORFLOW_MODELS[model.model_name]["description"] = model.description
-            TENSORFLOW_MODELS[model.model_name]["prediction_result"] = ""
+            TENSORFLOW_MODELS[model.model_type] = dict()
+            TENSORFLOW_MODELS[model.model_type]["model_name"] = model.model_name
+            TENSORFLOW_MODELS[model.model_type]["model_type"] = model.model_type
+            TENSORFLOW_MODELS[model.model_type]["model"] = load_tensorflow_keras_model(model.file_path)
+            TENSORFLOW_MODELS[model.model_type]["description"] = model.description
+            TENSORFLOW_MODELS[model.model_type]["prediction_result"] = ""
 
     # POST 데이터가 있는 경우.
     if len(requested_data_dict_key_list) > 0:

@@ -6,6 +6,9 @@ class TensorflowModel(models.Model):
     # 텐서플로 모델의 이름.
     model_name = models.CharField(max_length=30)
 
+    # 텐서플로 모델의 종류
+    model_type = models.CharField(max_length=30, default="")
+
     # 텐서플로 모델을 저장하고 있는 파일명.
     # "tensorflow_data/"가 최초 경로이다.
     file_path = models.CharField(max_length=30)
