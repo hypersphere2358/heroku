@@ -56,6 +56,7 @@ def number_recognition_main_page(request):
             for i in range(len(model_names)):
                 cur_model_type = model_names[i]
                 cur_model = TENSORFLOW_MODELS[cur_model_type]["model"]
+                prediction_data = None
 
                 # 어떤 모델이냐에 따라 input의 형태를 다르게 해야함.
                 if cur_model_type in ["NR_basic"]:
@@ -67,8 +68,9 @@ def number_recognition_main_page(request):
                     prediction_data = localize_image(prediction_data, max_value=1.0)
                     prediction_data = prediction_data.reshape(-1, 28, 28, 1)
 
-                result = cur_model.predict(prediction_data)
-                TENSORFLOW_MODELS[cur_model_type]["prediction_result"] = str(np.argmax(result))
+                if prediction_data is not None:
+                    result = cur_model.predict(prediction_data)
+                    TENSORFLOW_MODELS[cur_model_type]["prediction_result"] = str(np.argmax(result))
 
                 # print("모델 " + str(i) + ". 분석결과 : " + str(np.argmax(result)))
 
@@ -105,7 +107,6 @@ def object_detection_main_page(request):
         if form.is_valid():
             # save()를 실행하면, return으로 저장한 데이터 객체를 받는다.
             saved_image = form.save()
-            print(saved_image.image.url)
 
             # darknet을 cmd 창에서 직접 실행한다.
             # 개발환경에서는 windows cmd.
