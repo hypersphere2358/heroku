@@ -130,7 +130,7 @@ def object_detection_main_page(request):
             # cmd = "darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
             cmd = "./darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
             cmd += saved_image.image.url[1:]
-            cmd = "./darknet_no_gpu detector"
+            # cmd = "./darknet_no_gpu detector"
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
             result = subprocess.check_output(cmd)
