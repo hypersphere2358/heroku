@@ -115,8 +115,9 @@ def object_detection_main_page(request):
 
             if weight_filename not in file_list:
                 with open(weight_filename, 'wb') as f_write:
-                    split_file_name = ['yolov2_01.weights', 'yolov2_02.weights', 'yolov2_03.weights']
-                    for i in range(3):
+                    split_file_name = ['yolov2_01.weights', 'yolov2_02.weights', 'yolov2_03.weights',
+                                       'yolov2_04.weights', 'yolov2_05.weights', 'yolov2_06.weights']
+                    for i in range(len(split_file_name)):
                         with open(split_file_name[i], 'rb') as f_read:
                             lines = f_read.readlines()
                         f_write.writelines(lines)
