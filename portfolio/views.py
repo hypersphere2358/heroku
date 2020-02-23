@@ -132,9 +132,11 @@ def object_detection_main_page(request):
             cmd = "./darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
             cmd += saved_image.image.url[1:]
             cmd = "./darknet_no_gpu detector"
+            cmd = "ls"
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
             result = subprocess.check_output(cmd)
+            print(result)
 
             # 생성된 분석 파일을 저장하기 위해 파일명 추출.
             result_str = str(result)
