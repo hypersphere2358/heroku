@@ -44,3 +44,4 @@ Werkzeug==0.16.0
 whitenoise==5.0.1
 wincertstore==0.2
 wrapt==1.11.2
+setuptools==41.0.0

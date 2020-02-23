@@ -121,6 +121,8 @@ def object_detection_main_page(request):
                         with open(split_file_name[i], 'rb') as f_read:
                             lines = f_read.readlines()
                         f_write.writelines(lines)
+                for f in split_file_name:
+                    os.remove(f)
 
             # darknet을 cmd 창에서 직접 실행한다.
             # 개발환경에서는 windows cmd.
