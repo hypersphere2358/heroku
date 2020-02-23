@@ -112,6 +112,7 @@ def object_detection_main_page(request):
             # weight 파일이 만들어져 있지 않은 경우, 분할된 파일을 병합하여 만든다.
             weight_filename = "yolov2.weights"
             file_list = os.listdir(os.getcwd())
+            print(file_list)
 
             if weight_filename not in file_list:
                 with open(weight_filename, 'wb') as f_write:
@@ -130,7 +131,7 @@ def object_detection_main_page(request):
             # cmd = "darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
             cmd = "./darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
             cmd += saved_image.image.url[1:]
-            # cmd = "./darknet_no_gpu detector"
+            cmd = "./darknet_no_gpu detector"
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
             result = subprocess.check_output(cmd)
