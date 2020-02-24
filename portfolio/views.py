@@ -112,7 +112,7 @@ def object_detection_main_page(request):
             # weight 파일이 만들어져 있지 않은 경우, 분할된 파일을 병합하여 만든다.
             weight_filename = "yolov3.weights"
             file_list = os.listdir(os.getcwd())
-            # print(file_list)
+            print(file_list)
 
             if weight_filename not in file_list:
                 with open(weight_filename, 'wb') as f_write:
