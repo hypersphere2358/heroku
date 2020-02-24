@@ -110,14 +110,14 @@ def object_detection_main_page(request):
 
             # 용량이 큰 파일이 HEROKU에 업로드 되지 않아 해결책으로 분할하여 업로드 하는 방법을 사용함.
             # weight 파일이 만들어져 있지 않은 경우, 분할된 파일을 병합하여 만든다.
-            weight_filename = "yolov2.weights"
+            weight_filename = "yolov3.weights"
             file_list = os.listdir(os.getcwd())
             # print(file_list)
 
             if weight_filename not in file_list:
                 with open(weight_filename, 'wb') as f_write:
-                    split_file_name = ['yolov2_01.weights', 'yolov2_02.weights', 'yolov2_03.weights',
-                                       'yolov2_04.weights', 'yolov2_05.weights', 'yolov2_06.weights']
+                    split_file_name = ['yolov3_01.weights', 'yolov3_02.weights', 'yolov3_03.weights',
+                                       'yolov3_04.weights', 'yolov3_05.weights', 'yolov3_06.weights']
                     for i in range(len(split_file_name)):
                         with open(split_file_name[i], 'rb') as f_read:
                             lines = f_read.readlines()
@@ -129,14 +129,13 @@ def object_detection_main_page(request):
             # 개발환경에서는 windows cmd.
             # heroku 배포환경에서는 UNIX.
             # cmd = "darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
-            cmd = "./darknet_no_gpu.exe detector test data/coco.data yolo.cfg yolov2.weights "
+            # cmd = "./darknet_no_gpu.exe detector test data/coco.data yolo.cfg yolov2.weights "
+            cmd = "./darknet detector test data/coco.data yolo.cfg yolov2.weights "
             cmd += saved_image.image.url[1:]
-            # cmd = "./darknet_no_gpu detector"
-            # cmd = "ls"
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
             result = subprocess.check_output(cmd)
-            # print(result)
+            print(result)
 
             # 생성된 분석 파일을 저장하기 위해 파일명 추출.
             result_str = str(result)
