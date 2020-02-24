@@ -130,8 +130,11 @@ def object_detection_main_page(request):
             # heroku 배포환경에서는 UNIX.
             # cmd = "darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
             # cmd = "./darknet_no_gpu.exe detector test data/coco.data yolo.cfg yolov2.weights "
-            cmd = "./darknet detector test data/coco.data yolo.cfg yolov2.weights "
+            cmd = "./darknet detect cfg/yolov3.cfg yolov3.weights "
             cmd += saved_image.image.url[1:]
+
+            file_list = os.listdir(os.getcwd())
+            print(file_list)
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
             result = subprocess.check_output(cmd)
