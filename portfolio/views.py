@@ -132,6 +132,7 @@ def object_detection_main_page(request):
             # cmd = "./darknet_no_gpu.exe detector test data/coco.data yolo.cfg yolov2.weights "
             cmd = "./darknet detect cfg/yolov3.cfg yolov3.weights "
             cmd += saved_image.image.url[1:]
+            cmd = "ls"
 
             file_list = os.listdir(os.getcwd())
             print(file_list)
