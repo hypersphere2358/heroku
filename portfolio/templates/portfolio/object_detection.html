@@ -59,12 +59,14 @@
 
     <div class="container">
       {% if saved_image %}
+        <h5>원본 이미지</h5>
         <img height="300px" src="{{ saved_image.image.url }}" alt="" />
       {% endif %}
     </div>
     <br>
     <div class="container">
       {% if prediction_image %}
+        <h5>원본 이미지</h5>
         <img height="300px" src="{{ prediction_image.image.url }}" alt="" />
       {% endif %}
     </div>

@@ -137,6 +137,9 @@ def object_detection_main_page(request):
             file_list = os.listdir(os.getcwd())
             print(file_list)
 
+            result = subprocess.check_output("ls -al")
+            print(result)
+
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
             result = subprocess.check_output(cmd)
             print(result)
