@@ -134,10 +134,17 @@ def object_detection_main_page(request):
             cmd += saved_image.image.url[1:]
             cmd = "./darknet"
 
+            # 파일목록 보기
             file_list = os.listdir(os.getcwd())
             print(file_list)
 
-            result = subprocess.check_output("ls -al")
+            cmd_chmod = "chmod 777 darknet"
+            result = subprocess.check_output(cmd_chmod)
+            print(result)
+
+
+            cmd_ls = "ls -al"
+            result = subprocess.check_output(cmd_ls)
             print(result)
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
