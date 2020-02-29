@@ -139,16 +139,16 @@ def object_detection_main_page(request):
             print(file_list)
 
             cmd_chmod = "chmod 777 darknet"
-            result = subprocess.check_output(cmd_chmod)
+            result = subprocess.check_output(cmd_chmod, shell=True)
             print(result)
 
 
             cmd_ls = "ls -al"
-            result = subprocess.check_output(cmd_ls)
+            result = subprocess.check_output(cmd_ls, shell=True)
             print(result)
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
-            result = subprocess.check_output(cmd)
+            result = subprocess.check_output(cmd, shell=True)
             print(result)
 
             # 생성된 분석 파일을 저장하기 위해 파일명 추출.
