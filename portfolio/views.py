@@ -138,7 +138,14 @@ def object_detection_main_page(request):
             file_list = os.listdir(os.getcwd())
             print(file_list)
 
+            # 권한 수정
             cmd_chmod = "chmod 777 darknet"
+            result = subprocess.check_output(cmd_chmod, shell=True)
+            print(result)
+            cmd_chmod = "chmod 777 cfg"
+            result = subprocess.check_output(cmd_chmod, shell=True)
+            print(result)
+            cmd_chmod = "chmod 777 media"
             result = subprocess.check_output(cmd_chmod, shell=True)
             print(result)
 
