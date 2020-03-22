@@ -29,3 +29,13 @@ class TensorflowModel(models.Model):
 class UploadImageModel(models.Model):
     name = models.CharField(max_length=255, default="temp_image")
     image = models.ImageField(upload_to="")
+
+class MachineLearningTable(models.Model):
+    # ML 알고리즘 이름
+    name = models.CharField(max_length=50)
+
+    # Unsupervised or Supervised Learning
+    supervised_type = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name

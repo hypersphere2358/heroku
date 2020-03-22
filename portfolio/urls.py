@@ -18,6 +18,9 @@ urlpatterns = [
 
     # 물체 인식 메인 페이지
     path("object_detection/", views.object_detection_main_page, name="object_detection_main_page"),
+
+    # 머신러닝 연습 페이지
+    path("ml_practice/", views.ml_practice_main_page, name="ml_practice_main_page"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

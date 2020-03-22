@@ -46,33 +46,18 @@
 
     <!-- Portfolio Section -->
     <br>
-    <h2>물체 인식(Object Detection)</h2>
+    <h2 style="color: red">(개발중) 머신러닝 테스트</h2>
+    <hr>
 
+    <h5>사용하고자 하는 알고리즘을 선택하세요.</h5>
     <div class="row">
-      <form action="/object_detection/" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="분석시작!" />  
-      </form>
+      <select id="machine_learning_table">
+        {% for each_model in MLTable%}
+          <option value="{{ each_model.id }}">{{ each_model.name }}</option>
+        {% endfor %}
+      </select>
     </div>
     <!-- /.row -->
-    <div class="row">
-      <div class="column">
-        {% if saved_image %}
-          <h5>원본 이미지</h5>
-          <img height="300px" src="{{ saved_image.image.url }}" alt="" />
-        {% endif %}
-        {% if prediction_image %}
-          <h5>물체 인식 결과</h5>
-          <img height="300px" src="{{ prediction_image.image.url }}" alt="" />
-        {% endif %}
-      </div>
-    </div>
-      
-    <br>
-    <div class="container">
-
-    </div>
 
 
     <hr>
@@ -96,11 +81,6 @@
   
   <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  <script type="text/javascript">
-
-  </script>
 
 </body>
 

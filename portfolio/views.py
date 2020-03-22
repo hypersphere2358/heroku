@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.files import File
 
-from .models import TensorflowModel, UploadImageModel
+from .models import TensorflowModel, UploadImageModel, MachineLearningTable
 
 from .my_modules import *
 from .forms import UploadFileForm
@@ -110,14 +110,14 @@ def object_detection_main_page(request):
 
             # 용량이 큰 파일이 HEROKU에 업로드 되지 않아 해결책으로 분할하여 업로드 하는 방법을 사용함.
             # weight 파일이 만들어져 있지 않은 경우, 분할된 파일을 병합하여 만든다.
-            weight_filename = "yolov3.weights"
+            weight_filename = "yolov2.weights"
             file_list = os.listdir(os.getcwd())
-            print(file_list)
+            # print(file_list)
 
             if weight_filename not in file_list:
                 with open(weight_filename, 'wb') as f_write:
-                    split_file_name = ['yolov3_01.weights', 'yolov3_02.weights', 'yolov3_03.weights',
-                                       'yolov3_04.weights', 'yolov3_05.weights', 'yolov3_06.weights']
+                    split_file_name = ['yolov2_01.weights', 'yolov2_02.weights', 'yolov2_03.weights',
+                                       'yolov2_04.weights', 'yolov2_05.weights', 'yolov2_06.weights']
                     for i in range(len(split_file_name)):
                         with open(split_file_name[i], 'rb') as f_read:
                             lines = f_read.readlines()
@@ -128,35 +128,35 @@ def object_detection_main_page(request):
             # darknet을 cmd 창에서 직접 실행한다.
             # 개발환경에서는 windows cmd.
             # heroku 배포환경에서는 UNIX.
-            # cmd = "darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
+            cmd = "darknet_no_gpu detector test data/coco.data yolo.cfg yolov2.weights "
             # cmd = "./darknet_no_gpu.exe detector test data/coco.data yolo.cfg yolov2.weights "
-            cmd = "./darknet detect cfg/yolov3.cfg yolov3.weights "
+            # cmd = "./darknet detect cfg/yolov3.cfg yolov3.weights "
             cmd += saved_image.image.url[1:]
             # cmd = "./darknet"
 
-            # 파일목록 보기
-            file_list = os.listdir(os.getcwd())
-            print(file_list)
-
-            # 권한 수정
-            cmd_chmod = "chmod 777 darknet"
-            result = subprocess.check_output(cmd_chmod, shell=True)
-            print(result)
-            cmd_chmod = "chmod 777 cfg"
-            result = subprocess.check_output(cmd_chmod, shell=True)
-            print(result)
-            cmd_chmod = "chmod 777 media"
-            result = subprocess.check_output(cmd_chmod, shell=True)
-            print(result)
-
-
-            cmd_ls = "ls -al"
-            result = subprocess.check_output(cmd_ls, shell=True)
-            print(result)
+            # 파일목록 보기(배포에서 확인용)
+            # file_list = os.listdir(os.getcwd())
+            # print(file_list)
+            #
+            # # 권한 수정
+            # cmd_chmod = "chmod 777 darknet"
+            # result = subprocess.check_output(cmd_chmod, shell=True)
+            # print(result)
+            # cmd_chmod = "chmod 777 cfg"
+            # result = subprocess.check_output(cmd_chmod, shell=True)
+            # print(result)
+            # cmd_chmod = "chmod 777 media"
+            # result = subprocess.check_output(cmd_chmod, shell=True)
+            # print(result)
+            #
+            #
+            # cmd_ls = "ls -al"
+            # result = subprocess.check_output(cmd_ls, shell=True)
+            # print(result)
 
             # 화면에 출력되는 모든 결과를 텍스트로 저장.
             result = subprocess.check_output(cmd, shell=True)
-            print(result)
+            # print(result)
 
             # 생성된 분석 파일을 저장하기 위해 파일명 추출.
             result_str = str(result)
@@ -184,3 +184,15 @@ def object_detection_main_page(request):
     context["form"] = form
 
     return render(request, "portfolio/object_detection.html", context)
+
+def ml_practice_main_page(request):
+    # 머신러닝 데이터베이스 전부 불러오기
+    ML_table_data = MachineLearningTable.objects.all()
+
+    # 컨텍스트변수 생성
+    context = {}
+
+
+    context["MLTable"] = ML_table_data
+
+    return render(request, "portfolio/ml_practice.html", context)

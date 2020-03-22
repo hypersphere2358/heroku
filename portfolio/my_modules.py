@@ -127,3 +127,8 @@ def temp_image_save(img_data, filename):
     # file_path = os.path.join(TEMPORARY_IMAGE_DIR, filename)
 
     return file_path
+
+# 2020.03.19 부터 작성중. c로 된 darknet을 python으로 옮기기
+def yolo_python():
+
+    return True
